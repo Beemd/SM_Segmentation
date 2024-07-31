@@ -15,33 +15,6 @@ output_folder = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resou
 output_files = [f for f in os.listdir(output_folder) if f.endswith('.nii') or f.endswith('.nii.gz')]
 vertebra_value = 29 # index for L3 vertebra
 
-def generate_dicom_path_dict(axial_series_dir):
-    dicom_path_dict = {}
-    for root, dirs, files in os.walk(axial_series_dir):
-        for dir in dirs:
-            dicom_path_dict[dir] = os.path.join(root, dir)
-    return dicom_path_dict
-
-def get_dicom_path(nifti_parts, dicom_path_dict):
-    return dicom_path_dict.get(nifti_parts)
-
-def get_pixels_hu(scans):
-    image = scans.pixel_array
-    image = image.astype(np.int16)
-
-    image[image == -2000] = 0
-    
-    # Convert to Hounsfield units (HU)
-    intercept = scans.RescaleIntercept
-    slope = scans.RescaleSlope
-    
-    if slope != 1:
-        image = slope * image.astype(np.float64)
-        image = image.astype(np.int16)
-        
-    image += np.int16(intercept)
-    return np.array(image, dtype=np.int16)
-
 # Generate the dicom_path_dict
 dicom_path_dict = generate_dicom_path_dict(axial_series_dir)
 
