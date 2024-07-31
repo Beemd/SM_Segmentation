@@ -1,6 +1,7 @@
 # STEP 1: Reads dicom folders and identifies axial series and groups the files based on their attributes. 
 # Created new folders for each axial series group.
 # Passes the grouped dicom files to the Total Segmentator to get nifti files with all organs identified.
+# Nifti files are saved in the specified output folder.
 import os
 import pydicom
 import csv
@@ -9,6 +10,7 @@ import subprocess
 import tempfile
 import shutil
 from collections import defaultdict
+from utils import *
 
 # Specify the directory containing the CT scans
 directory = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/10R23000239/SUBJECTS'
