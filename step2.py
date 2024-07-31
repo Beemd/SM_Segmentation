@@ -1,10 +1,12 @@
-# STEP 2: Identify L3 slices in the segmented niftii files and convert to png.
+# STEP 2: Identify L3 slices in the segmented niftii files created in step2 and converts to png.
+# PNG files are saved in a new specified folder
 import pydicom
 from PIL import Image
 import pandas as pd
 import nibabel as nib
 import numpy as np
 import os
+from utils import *
 
 png_folder = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/result_files/png_slices_L3_additional_unprocessed'
 os.makedirs(png_folder, exist_ok=True)
