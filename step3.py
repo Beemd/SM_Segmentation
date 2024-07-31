@@ -1,4 +1,5 @@
 # Step 3: Load the trained model and make predictions on all generated png images
+# Saves the generated files (.pkl, .npz, and .png) in a a new specified folder.
  
 import os
 import torch
