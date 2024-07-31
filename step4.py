@@ -1,4 +1,5 @@
-# Step 4: Collect the results from all ensembles and generate the final segmentation output along with uncertainty map for each image
+# Step 4: Collect the results from all ensembles saved as .npz in step3 and generate the final segmentation output along with uncertainty map for each image.
+# A csv file is also generated and all the outputs are saved in a new scpeified folder.
 
 %matplotlib inline
 import os
@@ -8,6 +9,7 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 import pydicom
+from utils import *
 
 # User defined threshold
 threshold = 0.0001
