@@ -14,6 +14,7 @@ from utils import *
 
 # Specify the directory containing the CT scans
 directory = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/10R23000239/SUBJECTS'
+output_directory = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/result_files/axial_series_groups_all folders'
 
 # Iterate over all folders in the directory
 for dir in os.listdir(directory):
@@ -54,10 +55,10 @@ for dir in os.listdir(directory):
                 output_name = f"nnUNet_total_seg_l3_{split_name[-5]}_{split_name[-1]}_group{i+1}"
 
                 # Set the output_string
-                output_string = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/result_files/nifti_files_additional_unprocessed/' + output_name
+                output_string = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/result_files/nifti_files_all_folders/' + output_name
 
                 # The command to run the TotalSegmentator
-                command = f"TotalSegmentator -i \"{temp_dir}\" -o \"{output_string}\" --ml"
+                command = f"TotalSegmentator -i \"{group_dir}\" -o \"{output_string}\" --ml"
 
                 # Set the CUDA_VISIBLE_DEVICES environment variable
                 env = os.environ.copy()
