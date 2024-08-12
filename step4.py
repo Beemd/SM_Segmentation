@@ -1,5 +1,5 @@
 # Step 4: Collect the results from all ensembles saved as .npz in step3 and generate the final segmentation output along with uncertainty map for each image.
-# A csv file is also generated and all the outputs are saved in a new scpeified folder.
+# A csv file is also generated and all the outputs are saved in a new specified folder.
 
 %matplotlib inline
 import os
