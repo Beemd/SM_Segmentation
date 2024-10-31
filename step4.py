@@ -1,5 +1,6 @@
 # Step 4: Collect the results from all ensembles saved as .npz in step3 and generate the final segmentation output along with uncertainty map for each image.
 # A csv file is also generated and all the outputs are saved in a new specified folder.
+# Mask saved in DICOM format added
 
 %matplotlib inline
 import os
@@ -12,7 +13,7 @@ import pydicom
 from utils import *
 
 # User defined threshold
-threshold = 0.0001
+threshold = 50
 
 # Define the base directory where the ensemble folders are located
 base_dir = '/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/Pancreatic Cancer Image Data/result_files/nn_unet_sm_additional_unprocessed'
@@ -169,7 +170,11 @@ with open('/share/dept_machinelearning/Faculty/Rasool, Ghulam/Shared Resources/P
        
         # Save the average and variance as images
         Image.fromarray(predicted_sm_).save(os.path.join(base_dir, 'final_output_HU_refined', f'prediction_{filename}.png'))
-        Image.fromarray(ensemble_variance_norm).save(os.path.join(base_dir, 'final_output_HU_refined', f'uncertainty_{filename}.png'))         
+        Image.fromarray(ensemble_variance_norm).save(os.path.join(base_dir, 'final_output_HU_refined', f'uncertainty_{filename}.png'))
+        
+        # Save the predicted mask as a DICOM file
+        dicom_output_path = os.path.join(base_dir, 'final_output_HU_refined', f'prediction_{filename}.dcm')
+        save_dicom(predicted_sm, dicom_file, dicom_output_path) 
 
         # Clear the ensemble_data list for the next ensemble
         ensemble_data.clear()    
