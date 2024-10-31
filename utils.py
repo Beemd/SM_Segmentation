@@ -100,3 +100,38 @@ def get_pixels_hu(scans):
     image += np.int16(intercept)
     
     return np.array(image, dtype=np.int16)
+
+def save_dicom(predicted_mask, dicom_file, output_path):
+    # Create a new DICOM file based on the original DICOM file
+    new_dicom = dicom_file.copy()
+
+    # Ensure the pixel data is in the correct format and scale it properly
+    predicted_mask = (predicted_mask * 255).astype(np.uint8)  # Scale to 0-255 for visibility
+
+    # Update the pixel data with the predicted mask
+    new_dicom.PixelData = predicted_mask.tobytes()
+
+    # Update necessary metadata fields to match the predicted mask
+    new_dicom.Rows, new_dicom.Columns = predicted_mask.shape
+    new_dicom.BitsAllocated = 8  # Set BitsAllocated to match uint8 data
+    new_dicom.SamplesPerPixel = 1  # Grayscale image
+    new_dicom.PhotometricInterpretation = "MONOCHROME2"
+
+    # Update SOPInstanceUID to make it unique
+    new_dicom.SOPInstanceUID = pydicom.uid.generate_uid()
+    new_dicom.SeriesInstanceUID = pydicom.uid.generate_uid()
+    new_dicom.InstanceNumber = 1
+    new_dicom.SeriesDescription = "Predicted Mask"
+    new_dicom.ImageType = ["DERIVED", "PRIMARY"]
+    new_dicom.ContentDate = datetime.datetime.now().strftime('%Y%m%d')
+    new_dicom.ContentTime = datetime.datetime.now().strftime('%H%M%S')
+
+    # Set window center and window width to ensure the mask is visible
+    new_dicom.WindowCenter = 128
+    new_dicom.WindowWidth = 256
+
+    # Ensure the correct transfer syntax
+    new_dicom.file_meta.TransferSyntaxUID = pydicom.uid.ExplicitVRLittleEndian
+
+    # Save the new DICOM file
+    new_dicom.save_as(output_path)
